@@ -5,7 +5,7 @@ sudo: false
 language: node_js
 branches:
   only:
-  - server
+  - master
 addons:
   apt:
     packages:
