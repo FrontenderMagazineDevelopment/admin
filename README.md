@@ -1,0 +1,1 @@
+# Frontender Magazine Admin Panel

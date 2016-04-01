@@ -1,0 +1,28 @@
+{
+  "name": "frontender_magazine_admin_panel",
+  "version": "1.0.0",
+  "description": "Frontender Magazine Admin Panel",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrontenderMagazineDevelopment/admin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FrontenderMagazineDevelopment/admin/issues"
+  },
+  "homepage": "https://github.com/FrontenderMagazineDevelopment/admin#readme",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "compression": "^1.6.1",
+    "connect": "^3.4.1",
+    "dotenv": "^2.0.0",
+    "express-session": "^1.13.0",
+    "octonode": "^0.7.5"
+  }
+}
