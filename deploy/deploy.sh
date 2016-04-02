@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-export RESULT_DIR=admin.server.${TRAVIS_BUILD_NUMBER}
+export RESULT_DIR=admin.${TRAVIS_BUILD_NUMBER}
 export SSHPASS=${SSH_PASS}
 export ARCH_NAME=server.package.tgz
-export SYMLINK_NAME=admin.server
-export PROCESS_NAME=admin.server
+export SYMLINK_NAME=admin
+export PROCESS_NAME=admin
 
 mkdir ${RESULT_DIR}
 shopt -s extglob
