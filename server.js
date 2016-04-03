@@ -6,6 +6,7 @@ const   HOST_NAME = 'admin.frontender.info',
 
 const compression = require('compression'),
       body_parser = require('body-parser'),
+      cookie_parser = require('cookie-parser'),
       session = require('express-session'),
       connect = require('connect'),
       request = require('request'),
@@ -35,7 +36,9 @@ app.use((req, res, next) => {
 // Service middleware 
 app.use(session(SESSION_OPTIONS));
 app.use(compression());
+app.use(cookie_parser());
 app.use(body_parser.urlencoded({ extended: true }));
+app.use(body_parser.json());
 
 // Auth
 app.use(authStep1);
