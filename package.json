@@ -23,6 +23,7 @@
     "connect": "^3.4.1",
     "dotenv": "^2.0.0",
     "express-session": "^1.13.0",
+    "node-uuid": "^1.4.7",
     "octonode": "^0.7.5",
     "request": "^2.69.0"
   }

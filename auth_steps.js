@@ -1,6 +1,9 @@
 "use strict";
 
 module.exports.authStep1 = (req, res, next)=> {
+
+    console.log('req.query: ', req.query);
+
    if (
         (typeof req.query.code === "undefined") &&
         (typeof req.query.state === "undefined")
