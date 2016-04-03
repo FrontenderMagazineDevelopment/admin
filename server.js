@@ -28,9 +28,9 @@ const SESSION_OPTIONS = {
     };
 
 // Check host
-app.use((req, res, next) => {
-    if (req.headers.host === HOST_NAME) return next();
-    res.status(401).end();
+app.use((request, responce, next) => {
+    if (request.headers.host === HOST_NAME) return next();
+    responce.status(401).end();
 });
 
 // Service middleware 
@@ -39,6 +39,10 @@ app.use(compression());
 app.use(cookie_parser());
 app.use(body_parser.urlencoded({ extended: true }));
 app.use(body_parser.json());
+
+app.use((request, responce, next) => {
+    console.log(request);
+});
 
 // Auth
 app.use(authStep1);

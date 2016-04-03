@@ -60,6 +60,7 @@ module.exports.authStep2 = (req, res, next)=> {
                 res.end(error);
             }
         });
+    
     } else {
         return next();
     }
