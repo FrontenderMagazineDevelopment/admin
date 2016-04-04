@@ -17,6 +17,7 @@ const compression = require('compression'),
       authStep1 = require('./source/backend/auth_steps/auth_steps.js').authStep1, 
       authStep2 = require('./source/backend/auth_steps/auth_steps.js').authStep2,
       getUserInformation = require('./source/backend/user_information/user_information.js').getUserInformation,
+      isInOrganization = require('./source/backend/user_information/user_information.js').isInOrganization,
       app = connect();
 
 if (!fs.existsSync(ENV_PATH)) throw new Error('Envirnment files not found');
@@ -47,6 +48,7 @@ app.use(body_parser.json());
 app.use(authStep1);
 app.use(authStep2);
 app.use(getUserInformation);
+app.use(isInOrganization);
 
 // Show static
 app.use(function(request, responce, next) {
