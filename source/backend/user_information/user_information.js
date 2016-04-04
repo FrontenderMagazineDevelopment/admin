@@ -7,8 +7,8 @@ const AUTHOR_TEAM = 'Author';
 
 module.exports.getUserInformation = (request, response, next)=> {
     if (typeof request.session.access_token == "undefined") {
-        responce.writeHead(401);
-        return responce.end();
+        response.writeHead(401);
+        return response.end();
     }
 
     if (typeof request.session.user !== "undefined") return next();
@@ -37,8 +37,8 @@ module.exports.isInOrganization = (request, response, next)=> {
         (typeof request.session.access_token === "undefined") ||
         (typeof request.session.user === "undefined")
     ){
-        responce.writeHead(401);
-        return responce.end();
+        response.writeHead(401);
+        return response.end();
     }
 
     if ((typeof request.session.inOrganization !== "undefined") && (request.session.inOrganization === true)) return next();
@@ -51,12 +51,11 @@ module.exports.isInOrganization = (request, response, next)=> {
         }
     }, function (error, res, body) {
         request.session.inOrganization = (res.statusCode == 204);
-        if (!error && res.statusCode == 204) {    
-            next();
-        } else {
-            response.writeHead(response.statusCode);
-            response.end(error);
-        }
+        if (request.session.inOrganization === true) return next();
+
+        response.writeHead(401);
+        response.write('Вы не член!');
+        return response.end();
     });
 };
 
@@ -67,8 +66,8 @@ module.exports.getTeams = (request, response, next)=> {
         (typeof request.session.inOrganization === "undefined") ||
         (request.session.inOrganization === false)
     ){
-        responce.writeHead(401);
-        return responce.end();
+        response.writeHead(401);
+        return response.end();
     }
 
     if (typeof request.session.teams !== "undefined") return next();

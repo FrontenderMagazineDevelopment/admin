@@ -31,10 +31,10 @@ const SESSION_OPTIONS = {
     };
 
 // Check host
-app.use(function(request, responce, next) {
+app.use(function(request, response, next) {
     if (request.headers.host === HOST_NAME) return next();
-    responce.writeHead(401);
-    responce.end();
+    response.writeHead(401);
+    response.end();
 });
 
 // Service middleware 
@@ -53,10 +53,10 @@ app.use(isInOrganization);
 app.use(getTeams);
 
 // Show static
-app.use(function(request, responce, next) {
-    responce.writeHead(200);
-    responce.write('You are authorized.');
-    responce.end();
+app.use(function(request, response, next) {
+    response.writeHead(200);
+    response.write('You are authorized.');
+    response.end();
 });
 
 // Start server
