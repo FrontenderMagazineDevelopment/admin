@@ -53,7 +53,7 @@ module.exports.isInOrganization = (request, response, next)=> {
         request.session.inOrganization = (res.statusCode == 204);
         if (request.session.inOrganization === true) return next();
 
-        response.writeHead(401);
+        response.writeHead(401, {'Content-Type': 'text/html; charset=utf-8'});
         response.write('Вы не член!');
         return response.end();
     });
@@ -66,7 +66,7 @@ module.exports.getTeams = (request, response, next)=> {
         (typeof request.session.inOrganization === "undefined") ||
         (request.session.inOrganization === false)
     ){
-        response.writeHead(401, {'Content-Type': 'text/html; charset=utf-8'});
+        response.writeHead(401);
         return response.end();
     }
 
