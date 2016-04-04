@@ -27,14 +27,13 @@ module.exports.getUserInformation = (request, response, next)=> {
             response.end(error);
         }
     });
-}
+};
 
 module.exports.isInOrganization = (request, response, next)=> {
     
-
     if (
-        (typeof request.session.access_token == "undefined") ||
-        (typeof request.session.user == "undefined")
+        (typeof request.session.access_token === "undefined") ||
+        (typeof request.session.user === "undefined")
     ){
         responce.writeHead(401);
         return responce.end();
@@ -49,18 +48,47 @@ module.exports.isInOrganization = (request, response, next)=> {
             'User-Agent': 'Frontender Magazine Admin'
         }
     }, function (error, res, body) {
-        console.log('code: ', res.statusCode);
-        console.log('inOrganization: ', body);
-
-        if (!error && res.statusCode == 200) {    
-
-            let answer = JSON.parse(body);
-
-            return next();
-        
+        request.session.inOrganization = (res.statusCode == 204);
+        if (!error && res.statusCode == 204) {    
+            next();
         } else {
             response.writeHead(response.statusCode);
             response.end(error);
         }
     });
-}
+};
+
+module.exports.getTeams = (request, response, next)=> {
+    if (
+        (typeof request.session.access_token === "undefined") ||
+        (typeof request.session.user === "undefined") ||
+        (typeof request.session.inOrganization === "undefined") ||
+        (request.session.inOrganization === false)
+    ){
+        responce.writeHead(401);
+        return responce.end();
+    }
+
+    if (typeof request.session.teams !== "undefined") return next();
+
+    require('request').get({
+        url: '/user/teams?access_token='+request.session.access_token,
+        headers: {
+            'Accept': 'application/json',
+            'User-Agent': 'Frontender Magazine Admin'
+        }
+    }, function (error, res, body) {
+        console.log('code: ', res.statusCode);
+        console.log('body: ', body);
+        if (!error && res.statusCode == 200) {        
+            let answer = JSON.parse(body);
+            request.session.teams = answer;
+            console.log('teams: ', request.session.teams);
+            return next();
+        } else {
+            response.writeHead(response.statusCode);
+            response.end(error);
+        }
+    });
+};
+
