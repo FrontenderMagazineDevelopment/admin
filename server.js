@@ -7,16 +7,16 @@ const   HOST_NAME = 'admin.frontender.info',
 const compression = require('compression'),
       body_parser = require('body-parser'),
       cookie_parser = require('cookie-parser'),
-      query = require('./source/connect-query/connect-query.js'),
+      query = require('./source/backend/connect-query/connect-query.js'),
       session = require('express-session'),
       connect = require('connect'),
-      request = require('request'),
       dotenv = require('dotenv'),
       path = require('path'),
       http = require('http'),
       fs = require('fs'),
-      authStep1 = require('./auth_steps.js').authStep1, 
-      authStep2 = require('./auth_steps.js').authStep2,
+      authStep1 = require('./source/backend/auth_steps/auth_steps.js').authStep1, 
+      authStep2 = require('./source/backend/auth_steps/auth_steps.js').authStep2,
+      getUserInformation = require('./source/backend/user_information/user_information.js').getUserInformation,
       app = connect();
 
 if (!fs.existsSync(ENV_PATH)) throw new Error('Envirnment files not found');
@@ -43,9 +43,10 @@ app.use(session(SESSION_OPTIONS));
 app.use(body_parser.urlencoded({ extended: true }));
 app.use(body_parser.json());
 
-// Auth
+// Autentification and autorization
 app.use(authStep1);
 app.use(authStep2);
+app.use(getUserInformation);
 
 // Show static
 app.use(function(request, responce, next) {

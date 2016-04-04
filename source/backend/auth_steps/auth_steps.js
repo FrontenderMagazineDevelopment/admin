@@ -2,11 +2,10 @@
 
 const HOST_NAME = 'admin.frontender.info';
 
-const requester = require('request');
-
 module.exports.authStep1 = (request, response, next)=> {
 
    if (
+        (typeof request.session.access_token == "undefined") &&
         (typeof request.query.code === "undefined") &&
         (typeof request.query.state === "undefined")
     ) {
@@ -33,13 +32,14 @@ module.exports.authStep1 = (request, response, next)=> {
 
 module.exports.authStep2 = (request, response, next)=> {
     if (
+        (typeof request.session.access_token == "undefined") &&
         (typeof request.session.auth_state !== "undefined") &&
         (typeof request.query.code !== "undefined") &&
         (typeof request.query.state !== "undefined") &&
         (request.session.auth_state == request.query.state)
     ) {
 
-        requester.post({
+        require('request').post({
             url: 'https://github.com/login/oauth/access_token',
             headers: {
                 'Accept': 'application/json'
@@ -50,13 +50,13 @@ module.exports.authStep2 = (request, response, next)=> {
                 code: request.query.code,
                 state: request.query.state
             }
-        }, (error, response, body)=> {
-            if (!error && response.statusCode == 200) {
+        }, function (error, res, body) {
+            if (!error && res.statusCode == 200) {
                 let answer = JSON.parse(body);
                 request.session.access_token = answer.access_token;
                 request.session.scope = answer.scope;
                 request.session.token_type = answer.token_type;
-                response.writeHead(302, {location: HOST_NAME});
+                response.writeHead(302, {location: '/'});
                 response.end();
             } else {
                 response.writeHead(response.statusCode);
@@ -64,5 +64,7 @@ module.exports.authStep2 = (request, response, next)=> {
             }
         });
     
+    } else {
+        next();
     }
 }
