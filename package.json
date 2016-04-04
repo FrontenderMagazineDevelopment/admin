@@ -21,11 +21,13 @@
     "body-parser": "^1.15.0",
     "compression": "^1.6.1",
     "connect": "^3.4.1",
-    "cookie-parser": "^1.4.1",
+    "connect-query": "^0.2.0",
+    "cookie-parser": "^1.0.0",
     "dotenv": "^2.0.0",
-    "express-session": "^1.13.0",
+    "express-session": "^1.0.0",
     "node-uuid": "^1.4.7",
     "octonode": "^0.7.5",
+    "qs": "^6.1.0",
     "request": "^2.69.0"
   }
 }

@@ -1,8 +1,8 @@
 "use strict";
 
-module.exports.authStep1 = (req, res, next)=> {
+const HOST_NAME = 'admin.frontender.info';
 
-    console.log('req.query: ', req.query);
+module.exports.authStep1 = (req, res, next)=> {
 
    if (
         (typeof req.query.code === "undefined") &&
@@ -12,20 +12,20 @@ module.exports.authStep1 = (req, res, next)=> {
         let uuid = require('node-uuid'),
             state = uuid.v4(),
             url = 'https://github.com/login/oauth/authorize',
-            client_id = process.env.APP_PUBLIC,
+            client_id = process.env.APP_OPEN,
             redirect_uri = HOST_NAME,
             scope = 'read:org';
 
         req.session.auth_state = state;
-        res.redirect(url +
+        res.writeHead(302, {location: url +
             '?client_id=' + client_id +
-            '&redirect_uri=' + redirect_uri +
+            '&redirect_uri=http://' + redirect_uri +
             '&scope=' + scope +
-            '&state=' + state);
+            '&state=' + state});
         res.end();
 
     } else {
-        return next();
+        next();
     }
 };
 
@@ -43,7 +43,7 @@ module.exports.authStep2 = (req, res, next)=> {
                 'Accept': 'application/json'
             },
             form: {
-                client_id: process.env.APP_PUBLIC,
+                client_id: process.env.APP_OPEN,
                 client_secret: process.env.APP_SECRET,
                 code: req.query.code,
                 state: req.query.state
@@ -54,14 +54,13 @@ module.exports.authStep2 = (req, res, next)=> {
                 req.session.access_token = answer.access_token;
                 req.session.scope = answer.scope;
                 req.session.token_type = answer.token_type;
-                res.redirect(HOST_NAME);
+                res.writeHead(302, {location: HOST_NAME});
+                res.end();
             } else {
-                res.status(response.statusCode);
+                res.writeHead(response.statusCode);
                 res.end(error);
             }
         });
     
-    } else {
-        return next();
     }
 }
