@@ -66,7 +66,7 @@ module.exports.getTeams = (request, response, next)=> {
         (typeof request.session.inOrganization === "undefined") ||
         (request.session.inOrganization === false)
     ){
-        response.writeHead(401);
+        response.writeHead(401, {'Content-Type': 'text/html; charset=utf-8'});
         return response.end();
     }
 
