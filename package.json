@@ -4,8 +4,7 @@
   "description": "Frontender Magazine Admin Panel",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "wds": "webpack-dev-server",
+    "local": "webpack-dev-server --env local",
     "prodBuild": "webpack --optimize-minimize --define process.env.NODE_ENV=\"'PROD'\"",
     "lint:js": "eslint ./source/frontend/** --ext .jsx,.js --color -f stylish --fix",
     "start": "node server.js"

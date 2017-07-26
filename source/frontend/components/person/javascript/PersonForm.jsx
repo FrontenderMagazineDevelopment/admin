@@ -5,6 +5,7 @@ import PersonSyncValidator from './PersonSyncValidator';
 import PersonAsyncValidator from './PersonAsyncValidator';
 import renderField from './PersonField';
 import renderCheckboxField from './PersonCheckboxField';
+import renderSalaryField from './PersonSalaryField'
 import Icon from '../../icon/javascript/icon';
 
 import '../sprite-icons/author.svg';
@@ -36,6 +37,18 @@ class PersonForm extends Component {
     this.avatarPreview = element;
   }
 
+  this.state = {
+    state: {
+      create: true,
+      edit: false,
+      preview: false,
+    },
+    edit: {
+      team: true,
+      core: true,
+    }
+  }
+
   avatarURLChange = (event) => {
     if (event.currentTarget.getAttribute('data-invalid') === 'true') return;
     console.log('passed');
@@ -62,6 +75,17 @@ class PersonForm extends Component {
     reject(new SubmissionError(errors));
   })
 
+  saveInTeamElement = (element) => {
+    console.log('element', element, element.value, element.checked);
+    this.isTeamElement = element;
+  }
+
+  ifNotTeam = () => {
+    // console.log('boom: ', this.isTeamElement, this.isTeamElement.checked);
+    // if (!this.isTeamElement) return true;
+    // return !this.isTeamElement.checked;
+  }
+
   render() {
     const { valid, error, handleSubmit, pristine, reset, submitting } = this.props;
     return (
@@ -82,8 +106,8 @@ class PersonForm extends Component {
           <Field className="person__input" icon="trello" name="trello" component={renderField} type="email" placeholder="Trello" />
         </fieldset>
         <section className="person-form__fieldset person__fieldset--main">
-          <Field name="is_team" id="is_team" component={renderCheckboxField} type="checkbox" label="В команде" />
-          <Field name="is_core_team" id="is_core_team" component={renderCheckboxField} type="checkbox" label="За деньги" />
+          <Field name="is_team" withRef ref={this.saveInTeamElement} id="is_team" component={renderCheckboxField} type="checkbox" label="В команде" />
+          <Field name="is_core_team" disabled={!this.state.edit.team} id="is_core_team" component={renderCheckboxField} type="checkbox" label="За деньги" />
         </section>
         <section className="person-form__fieldset person__fieldset--role">
           <Field name="is_translator" id="is_translator" component={renderCheckboxField} type="checkbox" label="Переводчик" />

@@ -204,6 +204,12 @@
       animation: pulse 1s infinite linear;
     }
 
+    &--salary {
+      order: 0;
+      width: 50px;
+      margin-right: 5px;
+    }
+
     &-container {
       flex-grow: 1;
       display: flex;
