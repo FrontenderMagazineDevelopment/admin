@@ -1,0 +1,12 @@
+@import "../../../helpers/_helpers.css";
+
+.icon {
+  vertical-align: middle;
+  display: inline-block;
+
+  &--person {
+    width: 16px;
+    height: 16px;
+    margin-right: $step_1;
+  }
+}

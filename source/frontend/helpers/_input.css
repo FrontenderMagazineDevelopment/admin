@@ -1,0 +1,21 @@
+@define-mixin clear_input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+  max-width: none;
+  min-width: 0;
+  border-style: none;
+  box-shadow: none;
+  background: none;
+  outline: none;
+  overflow: visible;
+  position: relative;
+  display: inline-block;
+}

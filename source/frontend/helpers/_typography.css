@@ -1,0 +1,7 @@
+@import "_variables.css";
+
+@define-mixin text-font {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: $font_size_text;
+  line-height: $line_height_text;
+}

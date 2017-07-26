@@ -1,0 +1,5 @@
+/* TEAM */
+Your title: Anton Nemtsev, Developer
+Site: anton@frontender.info
+Twitter: @silentimp
+Location: Kyiv, Ukraine.

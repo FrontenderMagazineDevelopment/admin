@@ -1,0 +1,272 @@
+@import "../../../helpers/_helpers.css";
+
+.person {
+  display: inline-block;
+  width: 300px;
+  box-sizing: border-box;
+  position: relative;
+  @mixin text-font;
+
+  &__checkbox {
+    margin-right: 12px;
+    vertical-align: middle;
+    display: inline-block;
+
+    &[disabled] {
+      visibility: hidden;
+
+      & + label {
+        visibility: hidden;
+      }
+    }
+  }
+
+  &__empty {
+    fill: color(#eee lightness(90%));
+  }
+
+  &__fieldset {
+    &--role {
+      display: flex;
+      flex-wrap: wrap;
+      line-height: $step_4;
+    }
+
+    &--main {
+      display: flex;
+      line-height: $step_4;
+    }
+
+    &--contacts {
+      margin-bottom: $step_3;
+
+      .person__label:last-child .person__input {
+        box-shadow: none;
+      }
+    }
+  }
+
+  &--search {
+    height: $step_14;
+    text-align: center;
+    border: 1px solid $color_grey;
+    padding: $step_2;
+  }
+
+  &--preview {
+    height: $step_14;
+    border: 1px solid $color_grey;
+    padding: $step_2;
+  }
+
+  &__avatarPreview {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    opacity: 0;
+    transition: opacity .25s;
+
+    &--loaded {
+      opacity: 1;
+    }
+
+    &--errored {
+      opacity: 0;
+    }
+  }
+
+  &--form {
+    border: 1px solid $color_grey;
+    padding: $step_2;
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  &__avatar img,
+  &__avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  &__avatar {
+    margin-right: $step_2;
+  }
+
+  &__preview {
+    text-align: center;
+    position: relative;
+  }
+
+  &__details,
+  &__avatar {
+    display: inline-block;
+    vertical-align: bottom;
+  }
+
+  &__name {
+    font-size: $font_size_3;
+  }
+
+  &__role svg,
+  &__role {
+    width: $step_2;
+    height: $step_2;
+  }
+
+  &__button {
+    @mixin clear_input;
+    transition: fill .25s, transform .25s;
+
+    &[disabled] {
+      opacity: .1;
+    }
+
+    &:not([disabled]) {
+      &:hover {
+        fill: #c00;
+      }
+
+      &:active {
+        fill: #f00;
+        transform: scale(.9);
+      }
+    }
+
+    &--close {
+      position: absolute;
+      top: $step_2;
+      right: $step_2;
+      width: $step_2;
+      height: $step_2;
+      cursor: pointer;
+    }
+
+    &--submit {
+      position: absolute;
+      height: $step_2;
+      width: $step_2;
+      right: $step_2;
+      bottom: $step_2;
+      cursor: pointer;
+    }
+  }
+
+  .person__roles {
+    position: absolute;
+    top: $step_2;
+    right: $step_2;
+    height: calc($step_11 - 2px);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap-reverse;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    font-size: $font_size_3;
+  }
+
+  &__input {
+    @mixin clear_input;
+    line-height: $step_6;
+    font-size: $font_size_4;
+    height: $step_6;
+    box-shadow: inset 0 -1px 0 0 #eee;
+    order: 2;
+    flex-grow: 10;
+
+    & + svg {
+      transition: fill .25s .05s;
+    }
+
+    &--clean:not(&--validating) + svg {
+      fill: #eee;
+    }
+
+    &--invalid:not(&--clean):not(&--validating) + svg {
+      fill: rgba(160, 0, 0, .25);
+    }
+
+    &--valid:not(&--clean):not(&--validating) + svg {
+      fill: rgba(0, 160, 0, .25);
+    }
+
+    &--validating:not(&--clean) + svg {
+      animation: pulse 1s infinite linear;
+    }
+
+    &-container {
+      flex-grow: 1;
+      display: flex;
+      flex-basis: 50%;
+      width: 50%;
+      align-items: center;
+    }
+  }
+
+  &__button {
+    &--search {
+      @mixin clear_input;
+      height: $step_3;
+      line-height: $step_3;
+      width: 100%;
+      transition: opacity .25s;
+
+      use {
+        vertical-align: middle;
+        transition: fill .25s;
+      }
+
+      &:focus use,
+      &:active use,
+      &:hover:not([disabled]) use {
+        fill: #f00;
+      }
+
+      &[disabled] {
+        opacity: .5;
+      }
+    }
+  }
+
+  &__textarea {
+    @mixin clear_input;
+    @mixin text-font;
+    width: 100%;
+    height: 54px;
+    border-style: none;
+    resize: none;
+    outline: none;
+
+    &::-webkit-input-placeholder {
+      @mixin text-font;
+    }
+
+    &::-moz-placeholder {
+      @mixin text-font;
+    }
+
+    &:-ms-input-placeholder {
+      @mixin text-font;
+    }
+
+    &:-moz-placeholder {
+      @mixin text-font;
+    }
+  }
+}
+
+@keyframes pulse {
+  50% {
+    transform: scale(.8);
+  }
+}

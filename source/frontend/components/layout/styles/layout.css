@@ -1,0 +1,10 @@
+@import "../../../helpers/_helpers.css";
+
+body > svg:first-child {
+  position: fixed;
+  left: -999px;
+  top: -999px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
