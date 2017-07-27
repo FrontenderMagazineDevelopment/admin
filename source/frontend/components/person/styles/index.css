@@ -13,10 +13,10 @@
     display: inline-block;
 
     &[disabled] {
-      visibility: hidden;
+      opacity: .2;
 
       & + label {
-        visibility: hidden;
+        opacity: .2;
       }
     }
   }
@@ -26,6 +26,11 @@
   }
 
   &__fieldset {
+    &--salary {
+      &[disabled] {
+        opacity: .2;
+      }
+    }
     &--role {
       display: flex;
       flex-wrap: wrap;
@@ -206,8 +211,14 @@
 
     &--salary {
       order: 0;
+      flex-grow: 0;
+      flex-basis: 50px;
       width: 50px;
       margin-right: 5px;
+
+      &[disabled] {
+        opacity: .2;
+      }
     }
 
     &-container {

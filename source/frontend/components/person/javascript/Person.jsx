@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import PersonForm from './PersonForm';
 
-import '../styles/Person.css';
+import '../styles';
 
 function Person() {
   return (

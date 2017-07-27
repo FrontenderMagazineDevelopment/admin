@@ -1,18 +1,20 @@
-import * as person from '../types/person';
+import * as person from '../types';
 
 const defaultState = {
   list: [],
 };
 
 export default function personsReducer(previousState = defaultState, action) {
+  console.log('reducer: ', arguments);
+  return previousState;
   switch (action.type) {
-    case person.CREATE_PERSON:
+    case person.PERSON_CREATE:
       break;
-    case person.READ_PERSON:
+    case person.PERSON_READ:
       break;
-    case person.UPDATE_PERSON:
+    case person.PERSON_UPDATE:
       break;
-    case person.DELETE_PERSON:
+    case person.PERSON_DELETE:
       break;
     default:
       return previousState;

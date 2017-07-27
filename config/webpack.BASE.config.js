@@ -1,6 +1,7 @@
 const baseDir = process.cwd();
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { resolve } = require('path');
+const webpack = require('webpack');
 
 const env = process.env.NODE_ENV || 'LOCAL';
 const buildPath = resolve(baseDir, 'build/javascript');
@@ -72,6 +73,7 @@ module.exports = {
       ] }],
   },
   plugins: [
+    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify(env) }),
     new HtmlWebpackPlugin({
       filename: '../index.html',
       template: resolve(__dirname, '../source/frontend/pages/index.pug'),

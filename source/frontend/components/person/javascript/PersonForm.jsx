@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 import PropTypes from 'prop-types';
 import PersonSyncValidator from './PersonSyncValidator';
@@ -7,6 +9,7 @@ import renderField from './PersonField';
 import renderCheckboxField from './PersonCheckboxField';
 import renderSalaryField from './PersonSalaryField';
 import Icon from '../../icon/javascript/icon';
+import { create } from '../actions';
 
 import '../sprite-icons/author.svg';
 import '../sprite-icons/blog.svg';
@@ -28,21 +31,12 @@ import '../sprite-icons/translator.svg';
 import '../sprite-icons/trello.svg';
 import '../sprite-icons/twitter.svg';
 
-import '../styles/Person.css';
-
 
 class PersonForm extends Component {
 
   state = {
-    state: {
-      create: true,
-      edit: false,
-      preview: false,
-    },
-    edit: {
-      team: true,
-      core: true,
-    },
+    team: false,
+    core: false,
   }
 
   setAvatarPreview = (element) => {
@@ -60,16 +54,9 @@ class PersonForm extends Component {
     reject(new SubmissionError(errors));
   })
 
-  saveInTeamElement = (element) => {
-    console.log('element', element, element.value, element.checked);
-    this.isTeamElement = element;
-  }
-
   avatarURLChange = (event) => {
     if (event.currentTarget.getAttribute('data-invalid') === 'true') return;
-    console.log('passed');
     this.avatarPreview.setAttribute('src', event.currentTarget.value);
-    console.log(this.avatarPreview, event.currentTarget.value);
     this.avatarPreview.classList.toggle('person__avatarPreview--loaded', false);
     this.avatarPreview.classList.toggle('person__avatarPreview--errored', false);
   }
@@ -77,19 +64,45 @@ class PersonForm extends Component {
   setAvatarLoaded = () => {
     this.avatarPreview.classList.toggle('person__avatarPreview--loaded', true);
     this.avatarPreview.classList.toggle('person__avatarPreview--errored', false);
-    console.log('avatar loaded');
   }
 
-  ifNotTeam = () => {
-    // console.log('boom: ', this.isTeamElement, this.isTeamElement.checked);
-    // if (!this.isTeamElement) return true;
-    // return !this.isTeamElement.checked;
+  changeTeamState = (event) => {
+    this.setState((previous)=>{
+      const update = {...previous};
+      update[event.currentTarget.getAttribute('name')] = event.currentTarget.checked;
+      return update;
+    })
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    this.props.actions.create(data);
+  }
+
+  static contextTypes = {
+    store: PropTypes.object,
+  }
+
+  static propTypes = {
+    valid: PropTypes.bool.isRequired,
+    error: PropTypes.string,
+    handleSubmit: PropTypes.func,
+    pristine: PropTypes.bool.isRequired,
+    reset: PropTypes.func,
+    submitting: PropTypes.bool.isRequired,
+  }
+
+  static defaultProps = {
+    handleSubmit: null,
+    reset: null,
+    error: undefined,
   }
 
   render() {
-    const { valid, error, handleSubmit, pristine, reset, submitting } = this.props;
+    const { valid, error, pristine, reset, submitting } = this.props;
     return (
-      <form className="person person--form" onSubmit={handleSubmit} >
+      <form className="person person--form" onSubmit={this.handleSubmit} >
         <fieldset className="person__fieldset person__fieldset--person" >
           <div className="person__preview">
             <Icon icon="empty" className="icon person__empty" width={57} height={80} viewBox="0 0 58 80" />
@@ -106,18 +119,18 @@ class PersonForm extends Component {
           <Field className="person__input" icon="trello" name="trello" component={renderField} type="email" placeholder="Trello" />
         </fieldset>
         <section className="person-form__fieldset person__fieldset--main">
-          <Field name="is_team" withRef ref={this.saveInTeamElement} id="is_team" component={renderCheckboxField} type="checkbox" label="В команде" />
-          <Field name="is_core_team" disabled={!this.state.edit.team} id="is_core_team" component={renderCheckboxField} type="checkbox" label="За деньги" />
+          <Field onChange={this.changeTeamState} name="team" id="team" component={renderCheckboxField} type="checkbox" label="В команде" />
+          <Field onChange={this.changeTeamState} name="core" disabled={!this.state.team} id="core" component={renderCheckboxField} type="checkbox" label="За деньги" />
         </section>
         <section className="person-form__fieldset person__fieldset--role">
-          <Field name="is_translator" id="is_translator" component={renderCheckboxField} type="checkbox" label="Переводчик" />
-          <Field name="is_author" id="is_author" component={renderCheckboxField} type="checkbox" label="Автор" />
-          <Field name="is_editor" id="is_editor" component={renderCheckboxField} type="checkbox" label="Редактор" />
-          <Field name="is_developer" id="is_developer" component={renderCheckboxField} type="checkbox" label="Разработчик" />
+          <Field disabled={!this.state.team} name="translator" id="translator" component={renderCheckboxField} type="checkbox" label="Переводчик" />
+          <Field disabled={!this.state.team} name="author" id="author" component={renderCheckboxField} type="checkbox" label="Автор" />
+          <Field disabled={!this.state.team} name="editor" id="editor" component={renderCheckboxField} type="checkbox" label="Редактор" />
+          <Field disabled={!this.state.team} name="developer" id="developer" component={renderCheckboxField} type="checkbox" label="Разработчик" />
         </section>
-        <section className="person-form__fieldset person__fieldset--salary">
+        <fieldset disabled={!this.state.team || !this.state.core} className="person-form__fieldset person__fieldset--salary">
           <Field name="salary" id="salary" component={renderSalaryField} />
-        </section>
+        </fieldset>
         <fieldset className="person__fieldset person__fieldset--menu">
           <button className="person__button person__button--submit" type="submit" disabled={!valid || pristine || submitting}>
             <Icon icon="save" classList="icon--person" />
@@ -130,28 +143,23 @@ class PersonForm extends Component {
   }
 }
 
-PersonForm.contextTypes = {
-  store: PropTypes.object,
-};
+function mapStateToProps(state) {
+  return {
+    state: state.Person,
+  }
+}
 
-PersonForm.propTypes = {
-  valid: PropTypes.bool.isRequired,
-  error: PropTypes.string,
-  handleSubmit: PropTypes.func,
-  pristine: PropTypes.bool.isRequired,
-  reset: PropTypes.func,
-  submitting: PropTypes.bool.isRequired,
-};
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: {
+      create: bindActionCreators(create, dispatch),
+    }
+  };
+}
 
-PersonForm.defaultProps = {
-  handleSubmit: null,
-  reset: null,
-  error: undefined,
-};
-
-export default reduxForm({
+export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
   form: 'person',
   validate: PersonSyncValidator,
   asyncValidate: PersonAsyncValidator,
   asyncBlurFields: ['github', 'twitter', 'trello', 'email', 'blog'],
-})(PersonForm);
+})(PersonForm));

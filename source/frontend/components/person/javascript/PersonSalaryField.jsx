@@ -12,25 +12,23 @@ const renderSalaryField = ({
 }) => {
   const { asyncValidating, valid, invalid, pristine, active } = meta;
   return (
-  <div className={`person__input-container ${className}`}>
-    <label className="person__label" htmlFor={id}>
-      <input
-        {...input}
-        disabled={disabled}
-        id={id}
-        type="text"
-        className={`
-          person__input
-          person__input--salary
-          ${pristine ? ' person__input--clean' : ''}
-          ${asyncValidating ? ' person__input--validating' : ''}
-          ${(!active) && valid ? ' person__input--valid' : ''}
-          ${(!active) && invalid ? ' person__input--invalid' : ''}
-        `}
-      />
-      $/1K знаков.
-    </label>
-  </div>
+  <label className="person__label" htmlFor={id}>
+    <input
+      {...input}
+      id={id}
+      type="text"
+      disabled={disabled}
+      className={`
+        person__input
+        person__input--salary
+        ${pristine ? ' person__input--clean' : ''}
+        ${asyncValidating ? ' person__input--validating' : ''}
+        ${(!active) && valid ? ' person__input--valid' : ''}
+        ${(!active) && invalid ? ' person__input--invalid' : ''}
+      `}
+    />
+    $/1K знаков.
+  </label>
 )};
 
 renderSalaryField.propTypes = {
