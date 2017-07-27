@@ -5,7 +5,7 @@ import PersonSyncValidator from './PersonSyncValidator';
 import PersonAsyncValidator from './PersonAsyncValidator';
 import renderField from './PersonField';
 import renderCheckboxField from './PersonCheckboxField';
-import renderSalaryField from './PersonSalaryField'
+import renderSalaryField from './PersonSalaryField';
 import Icon from '../../icon/javascript/icon';
 
 import '../sprite-icons/author.svg';
@@ -33,11 +33,7 @@ import '../styles/Person.css';
 
 class PersonForm extends Component {
 
-  setAvatarPreview = (element) => {
-    this.avatarPreview = element;
-  }
-
-  this.state = {
+  state = {
     state: {
       create: true,
       edit: false,
@@ -46,22 +42,11 @@ class PersonForm extends Component {
     edit: {
       team: true,
       core: true,
-    }
+    },
   }
 
-  avatarURLChange = (event) => {
-    if (event.currentTarget.getAttribute('data-invalid') === 'true') return;
-    console.log('passed');
-    this.avatarPreview.setAttribute('src', event.currentTarget.value);
-    console.log(this.avatarPreview, event.currentTarget.value);
-    this.avatarPreview.classList.toggle('person__avatarPreview--loaded', false);
-    this.avatarPreview.classList.toggle('person__avatarPreview--errored', false);
-  }
-
-  setAvatarLoaded = () => {
-    this.avatarPreview.classList.toggle('person__avatarPreview--loaded', true);
-    this.avatarPreview.classList.toggle('person__avatarPreview--errored', false);
-    console.log('avatar loaded');
+  setAvatarPreview = (element) => {
+    this.avatarPreview = element;
   }
 
   setAvatarError = () => new Promise(function (resolve, reject) {
@@ -78,6 +63,21 @@ class PersonForm extends Component {
   saveInTeamElement = (element) => {
     console.log('element', element, element.value, element.checked);
     this.isTeamElement = element;
+  }
+
+  avatarURLChange = (event) => {
+    if (event.currentTarget.getAttribute('data-invalid') === 'true') return;
+    console.log('passed');
+    this.avatarPreview.setAttribute('src', event.currentTarget.value);
+    console.log(this.avatarPreview, event.currentTarget.value);
+    this.avatarPreview.classList.toggle('person__avatarPreview--loaded', false);
+    this.avatarPreview.classList.toggle('person__avatarPreview--errored', false);
+  }
+
+  setAvatarLoaded = () => {
+    this.avatarPreview.classList.toggle('person__avatarPreview--loaded', true);
+    this.avatarPreview.classList.toggle('person__avatarPreview--errored', false);
+    console.log('avatar loaded');
   }
 
   ifNotTeam = () => {
