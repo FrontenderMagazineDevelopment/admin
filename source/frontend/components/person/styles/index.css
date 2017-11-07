@@ -1,11 +1,32 @@
 @import "../../../helpers/_helpers.css";
 
 .person {
-  display: inline-block;
   width: 300px;
   box-sizing: border-box;
   position: relative;
   @mixin text-font;
+
+  &--filter {
+    margin: $step_4 auto;
+    display: flex;
+    margin-left: 24px;
+    margin-right: 24px;
+    width: auto;
+
+    .person__label {
+      flex-grow: 1;
+    }
+
+    .person-form__fieldset {
+      order: -1;
+    }
+
+    .person__input-container {
+      margin-right: $step_1;
+      width: auto;
+      flex-basis: auto;
+    }
+  }
 
   &__checkbox {
     margin-right: 12px;
@@ -31,6 +52,7 @@
         opacity: .2;
       }
     }
+
     &--role {
       display: flex;
       flex-wrap: wrap;
@@ -62,6 +84,24 @@
     height: $step_14;
     border: 1px solid $color_grey;
     padding: $step_2;
+
+    .icon.person__empty {
+      position: absolute;
+    }
+
+    &:hover {
+      .person__button--edit {
+        opacity: 1;
+
+        .icon--edit {
+          display: block;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translateX(-50%) translateY(-50%);
+        }
+      }
+    }
   }
 
   &__avatarPreview {
@@ -75,6 +115,7 @@
     margin: auto;
     opacity: 0;
     transition: opacity .25s;
+    color: transparent;
 
     &--loaded {
       opacity: 1;
@@ -88,6 +129,7 @@
   &--form {
     border: 1px solid $color_grey;
     padding: $step_2;
+    grid-row: auto / span 5;
   }
 
   &__icon {
@@ -103,6 +145,12 @@
 
   &__avatar {
     margin-right: $step_2;
+    position: relative;
+  }
+
+  &__image {
+    color: transparent;
+    position: absolute;
   }
 
   &__preview {
@@ -129,6 +177,7 @@
   &__button {
     @mixin clear_input;
     transition: fill .25s, transform .25s;
+    cursor: pointer;
 
     &[disabled] {
       opacity: .1;
@@ -162,6 +211,55 @@
       bottom: $step_2;
       cursor: pointer;
     }
+
+    &--delete {
+      position: absolute;
+      height: $step_2;
+      width: $step_2;
+      left: $step_2;
+      top: $step_2;
+      cursor: pointer;
+    }
+
+    &--edit {
+      appearance: none;
+      padding: 0;
+      margin: 0;
+      max-width: none;
+      min-width: 0;
+      background: none;
+      overflow: visible;
+      outline-style: none;
+      border-style: none;
+      box-shadow: none;
+      display: inline-block;
+      box-sizing: border-box;
+      z-index: 1;
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      width: 84px;
+      height: 84px;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: auto 50px;
+      background-color: rgba(255, 255, 255, .75);
+      transition: opacity .25s;
+      cursor: pointer;
+      font-size: 0;
+      color: transparent;
+      text-indent: -9999px;
+      opacity: 0;
+
+      &:not([disabled]) {
+        &:hover,
+        &:active {
+          background-color: rgba(255, 255, 255, .95);
+          fill: #c00;
+          transform: none;
+        }
+      }
+    }
   }
 
   .person__roles {
@@ -170,14 +268,15 @@
     right: $step_2;
     height: calc($step_11 - 2px);
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap-reverse;
+    flex-flow: column wrap-reverse;
   }
 
   &__label {
     display: flex;
     align-items: center;
     font-size: $font_size_3;
+    position: relative;
+    box-sizing: border-box;
   }
 
   &__input {
@@ -278,6 +377,51 @@
 
     &:-moz-placeholder {
       @mixin text-font;
+    }
+  }
+
+  &__error-message {
+    color: #c00;
+    font-size: $font_size_4;
+    position: absolute;
+    left: $step_2;
+    bottom: $step_2;
+  }
+
+  &__field-error {
+    position: absolute;
+    background: #c00;
+    color: white;
+    padding: 12px;
+    left: calc(100% + 10px);
+    z-index: 10;
+    box-sizing: border-box;
+    height: 100%;
+    white-space: nowrap;
+
+    &::before {
+      content: '';
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-right: 10px solid #c00;
+      position: absolute;
+      left: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &--left {
+      right: calc(100% + 10px);
+      left: auto;
+
+      &::before {
+        border-left: 10px solid #c00;
+        right: -10px;
+        left: auto;
+        border-right: none;
+      }
     }
   }
 }

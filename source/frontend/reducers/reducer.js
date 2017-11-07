@@ -1,9 +1,12 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
-import Persons from '../components/person/reducers';
+import { personSearchReducer, personsReducer } from '../components/person/reducers';
+import personsFilterReducer from '../components/personFilter/reducers';
 
 
 export default combineReducers({
-  Persons,
+  personsReducer,
+  personsFilterReducer,
+  personSearchReducer,
   form: formReducer,
 });

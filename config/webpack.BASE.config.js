@@ -9,7 +9,7 @@ const buildPath = resolve(baseDir, 'build/javascript');
 module.exports = {
   context: resolve(__dirname, '../source/frontend'),
   resolve: {
-    extensions: ['.js', '.jsx', '.css'],
+    extensions: ['.js', '.jsx', '.css', '.pcss'],
     modules: [
       'node_modules',
       resolve(baseDir, ''),
@@ -21,6 +21,7 @@ module.exports = {
     },
   },
   entry: [
+    'babel-polyfill',
     './app.jsx',
   ],
   output: {
@@ -62,7 +63,7 @@ module.exports = {
       test: /\.pug$/,
       use: ['pug-loader'],
     }, {
-      test: /\.css$/,
+      test: /\.(css|pcss)$/,
       use: [
         'style-loader',
         {

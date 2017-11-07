@@ -6,7 +6,6 @@ export default function PersonAsyncValidator(values, dispatch, props, changed) {
   return new Promise(async (resolve, reject) => {
     let answer;
     let message;
-    const emailRegularExpression = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     switch (changed) {
       case 'github':
@@ -24,12 +23,6 @@ export default function PersonAsyncValidator(values, dispatch, props, changed) {
       case 'blog':
         answer = await Services.checkURL(values[changed]);
         message = 'URL is not answering';
-        break;
-      case 'email':
-        answer = {
-          success: emailRegularExpression.test(values[changed]),
-        };
-        message = 'Strange email format';
         break;
       default:
         break;

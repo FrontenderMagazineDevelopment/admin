@@ -10,17 +10,18 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true,
+    "es6": true
   },
   "rules": {
-        "jsx-a11y/label-has-for": 0,
-    },
-  "settings" : {
+    "jsx-a11y/label-has-for": 0,
+    "no-underscore-dangle": 0
+  },
+  "settings": {
     "import/core-modules": "config.js",
     "import/resolver": {
       "webpack": {
-        "config": "./config/webpack.BASE.config.js",
+        "config": "./config/webpack.BASE.config.js"
       }
     }
-  },
+  }
 }
